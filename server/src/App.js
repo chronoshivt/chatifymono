@@ -1,16 +1,13 @@
-import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
-import config from "config";
 
-import socket from "./socket";
+import socket from "./socket.js";
+import express from "express";
 
-const port = config.get < number > "port";
-const host = config.get < string > "host";
-const corsOrigin = config.get < string > "corsOrigin";
-const queryString = require("query-string");
-
+const port = process.env.PORT || 4000;
+const host = process.env.HOST || "localhost";
+const corsOrigin = "https://chatifymono.vercel.app";
 const app = express();
 
 const httpServer = createServer(app);
@@ -25,5 +22,6 @@ const io = new Server(httpServer, {
 app.get("/", (_, res) => res.send("Server is up"));
 
 httpServer.listen(port, host, () => {
+  console.log("live on port:", port);
   socket({ io });
 });
