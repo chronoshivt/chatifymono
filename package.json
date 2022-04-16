@@ -4,7 +4,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "cd server && nodemon --config nodemon.json src/app.ts"
+    "server": "cd server && nodemon --config nodemon.json src/app.ts",
+    
+    "buildServer": "cd server && yarn install && yarn build"
   },
   "devDependencies": {
     "@types/react": "^17.0.43",
