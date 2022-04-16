@@ -4,8 +4,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cd server && nodemon --config nodemon.json src/app.ts",
-    "server": "cd server && node src/App.ts",
+    "dev": "cd server && nodemon --config nodemon.json src/app.js",
+    "server": "cd server && node src/App.js",
     
     "buildServer": "cd server && yarn install"
   },
