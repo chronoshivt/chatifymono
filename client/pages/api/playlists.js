@@ -1,4 +1,4 @@
-import { getUsersPlaylists } from "../lib/spotify";
+import { getUsersPlaylists } from "../../lib/spotify";
 import { getSession } from "next-auth/react";
 
 const handler = async (req, res) => {
