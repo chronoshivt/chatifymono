@@ -21,11 +21,12 @@ function RoomsContainer() {
 
   useEffect(() => {
     // @ts-ignore
-    const roomName = playing?.item?.name;
+    const roomName = playing?.item?.artists[0].name;
     // @ts-ignore
-    const roomId = playing?.item?.id;
+    const roomId = playing?.item?.artists[0].id;
 
     if (!String(roomName).trim()) return;
+    if (!String(roomId).trim()) return;
 
     //emit room created event
     socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, roomId });
@@ -49,10 +50,17 @@ function RoomsContainer() {
   // };
 
   const newRoomRef = useRef(null);
+
   function handleJoinRoom(key) {
+    // @ts-ignore
+    let previous = roomId;
+
     if (key === roomId) return;
 
+    //emit room joined event
     socket.emit(EVENTS.CLIENT.JOIN_ROOM, key);
+
+    socket.emit(EVENTS.CLIENT.LEAVE_ROOM, previous);
   }
 
   function handleCreateRoom() {
@@ -66,8 +74,8 @@ function RoomsContainer() {
     newRoomRef.current.value = "";
   }
   return (
-    <nav className="p-2">
-      <div className="text-2xl">
+    <nav className="p-2 h-full items-center flex flex-col shadow-md bg-brown-light">
+      <div className="text-2xl hidden">
         <input
           className="bg-gray-500"
           ref={newRoomRef}
@@ -78,23 +86,7 @@ function RoomsContainer() {
           CREATE ROOM
         </button>
       </div>
-
-      {Object.keys(rooms).map((key) => {
-        return (
-          <div className="" key={key}>
-            <button
-              className="text-3xl p-4 bg-orange-400 m-2"
-              disabled={key === roomId}
-              title={`Join ${rooms[key].name}`}
-              onClick={() => handleJoinRoom(key)}
-            >
-              {rooms[key].name}
-            </button>
-          </div>
-        );
-      })}
-
-      <div className="bg-orange-300 h-24">
+      <div className="bg-orange-300 w-full h-24">
         {/* @ts-ignore */}
         <p className="text-2xl">User: {session?.token?.name}</p>
         {/* @ts-ignore */}
@@ -105,6 +97,27 @@ function RoomsContainer() {
           Refresh
         </button>
       </div>
+
+      {Object.keys(rooms).map((key) => {
+        return (
+          <div className="" key={key}>
+            <button
+              className={
+                key === roomId
+                  ? "text-3xl  bg-lime-400 m-2 p-6"
+                  : "text-3xl p-4 bg-lime-200 m-2"
+              }
+              disabled={key === roomId}
+              title={`Join ${rooms[key].name}`}
+              onClick={() => {
+                handleJoinRoom(key);
+              }}
+            >
+              {rooms[key].name}
+            </button>
+          </div>
+        );
+      })}
     </nav>
   );
 }

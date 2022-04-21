@@ -6,11 +6,13 @@ const EVENTS = {
     CREATE_ROOM: "CREATE_ROOM",
     SEND_ROOM_MESSAGE: "SEND_ROOM_MESSAGE",
     JOIN_ROOM: "JOIN_ROOM",
+    LEAVE_ROOM: "EVENTS.CLIENT.LEAVE_ROOM",
   },
   SERVER: {
     ROOMS: "ROOMS",
     JOINED_ROOM: "JOINED_ROOM",
     ROOM_MESSAGE: "ROOM_MESSAGE",
+    LEFT_ROOM: "LEFT_ROOM",
   },
 };
 
@@ -26,8 +28,6 @@ function socket({ io }) {
 
     // When a user creates a new room
     socket.on(EVENTS.CLIENT.CREATE_ROOM, ({ roomName, roomId }) => {
-      // console.log(Object.values(rooms));
-
       console.log(rooms);
       const arrayOfRooms = Object.values(rooms);
 
@@ -42,15 +42,6 @@ function socket({ io }) {
         socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
         // console.log(arrayWithFilterObjects);
       }
-
-      const checkUsername = (obj) => obj.name === roomName;
-
-      // console.log(arrayOfRooms.some(checkUsername));
-      // if (arrayOfRooms.some(checkUsername)) {
-      // }
-
-      //create a room id
-      // const roomId = nanoid();
 
       //add a new room to the rooms object
       rooms[roomId] = {
@@ -77,7 +68,11 @@ function socket({ io }) {
         socket.to(roomId).emit(EVENTS.SERVER.ROOM_MESSAGE, {
           message,
           username,
-          time: `${date.getHours()}:${date.getMinutes()}}`,
+          time: `${date.toLocaleString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })}`,
         });
       }
     );
@@ -88,6 +83,20 @@ function socket({ io }) {
       socket.join(roomId);
 
       socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
+    });
+
+    //WHen a user leaves a room
+    socket.on(EVENTS.CLIENT.LEAVE_ROOM, (roomId) => {
+      socket.leave(roomId);
+
+      console.log("Leaving room", roomId);
+
+      socket.emit(EVENTS.SERVER.LEFT_ROOM, roomId);
+      //broadcast an event saying there is a new room
+      socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
+      //emit back to the room creator with all the rooms
+      socket.emit(EVENTS.SERVER.ROOMS, rooms);
+      console.log("Rooms:", rooms);
     });
   });
 }

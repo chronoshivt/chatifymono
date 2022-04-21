@@ -1,6 +1,3 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { useSockets } from "../context/socket.context";
 import { useEffect, useRef, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -50,7 +47,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className=" h-screen">
+    <div className="bg-green-400 h-screen">
       {session && !username && (
         <>
           {/* @ts-ignore */}
@@ -79,7 +76,7 @@ export default function Home() {
         </>
       )}
       {!username && (
-        <div className="flex justify-center">
+        <div className="flex bg-emerald-500 justify-center">
           <input
             className="text-3xl bg-gray-600"
             placeholder="Username"
@@ -94,12 +91,12 @@ export default function Home() {
         </div>
       )}
       {username && session && (
-        <div className="bg-green-300 flex h-screen">
+        <div className="bg-brown-dark flex h-screen">
           {/* <button onClick={() => getMyPlaylists()}>PLAYLIST</button> */}
-          <div>
+          <div className="w-2/6">
             <RoomsContainer />
           </div>
-          <section className="flex-1">
+          <section className="flex-1 w-4/6">
             <MessagesContainer />
           </section>
         </div>
