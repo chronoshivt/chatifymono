@@ -3,6 +3,9 @@ import { useRef } from "react";
 import EVENTS from "../config/events";
 import { useEffect, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import ColorHash from "color-hash";
+
+var colorHash = new ColorHash();
 
 function RoomsContainer() {
   //Spotify
@@ -19,11 +22,27 @@ function RoomsContainer() {
     console.log(playing);
   };
 
+  const playChosenTrack = async (key) => {
+    const res = await fetch("/api/play-track", {
+      method: "PUT",
+      body: JSON.stringify(key),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const items = await res.json();
+    console.log(items);
+    console.log(colorHash.hex(key));
+  };
+  // @ts-ignore
+
+  const [testHash, setHash] = useState(colorHash.hex("pussssy"));
+
   useEffect(() => {
     // @ts-ignore
     const roomName = playing?.item?.artists[0].name;
     // @ts-ignore
-    const roomId = playing?.item?.artists[0].id;
+    const roomId = playing?.item?.artists[0].uri;
 
     if (!String(roomName).trim()) return;
     if (!String(roomId).trim()) return;
@@ -93,7 +112,7 @@ function RoomsContainer() {
         <p>Current song: {playing?.item?.name}</p>
 
         <p>Current room : {roomId}</p>
-        <button className="bg-purple-500 text-3xl" onClick={getMyPlaying}>
+        <button className="text-4xl bg-red-600" onClick={getMyPlaying}>
           Refresh
         </button>
       </div>
@@ -102,15 +121,17 @@ function RoomsContainer() {
         return (
           <div className="" key={key}>
             <button
+              style={{ backgroundColor: colorHash.hex(key) }}
               className={
                 key === roomId
-                  ? "text-3xl  bg-lime-400 m-2 p-6"
-                  : "text-3xl p-4 bg-lime-200 m-2"
+                  ? "text-3xl  -translate-x-12 m-2 p-6"
+                  : "text-3xl p-4  m-2"
               }
               disabled={key === roomId}
               title={`Join ${rooms[key].name}`}
               onClick={() => {
                 handleJoinRoom(key);
+                playChosenTrack(key);
               }}
             >
               {rooms[key].name}

@@ -6,6 +6,8 @@ const PLAYLISTS_ENDPOINT = "https://api.spotify.com/v1/me/playlists";
 const CURRENTLY_PLAYING_ENDPOINT =
   "https://api.spotify.com/v1/me/player/currently-playing";
 
+const PLAY_TRACK_ENDPOINT = "https://api.spotify.com/v1/me/player/play";
+
 const getAccessToken = async (refresh_token) => {
   const response = await fetch(TOKEN_ENDPOINT, {
     method: "POST",
@@ -37,5 +39,23 @@ export const getCurrentlyPlaying = async (refresh_token) => {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
+  });
+};
+
+export const playChosenTrack = async (refresh_token, artist) => {
+  const { access_token } = await getAccessToken(refresh_token);
+  console.log(refresh_token);
+  console.log(artist);
+  const stringArtist = JSON.stringify(artist);
+  return fetch(PLAY_TRACK_ENDPOINT, {
+    method: "PUT",
+
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      context_uri: artist,
+    }),
   });
 };
