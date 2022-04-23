@@ -5,10 +5,6 @@ import EVENTS from "../config/events";
 function MessagesContainer() {
   const { socket, messages, roomId, username, setMessages } = useSockets();
   const newMessageRef = useRef(null);
-  // returns the hours number for a date, between 1 and 12
-  function hours12(date) {
-    return (date.getHours() + 24) % 12 || 12;
-  }
 
   const messageEndRef = useRef(null);
 
@@ -48,7 +44,7 @@ function MessagesContainer() {
   return (
     <div className="flex h-full justify-end flex-col">
       <div className="bg-emerald-400"></div>
-      <section className="overflow-y-auto bg-black">
+      <section className="overflow-y-auto scrollbar-thin scrollbar-thumb-lime-300 scrollbar-track-brown-light bg-black">
         {messages.map((message, index) => {
           return (
             <div
@@ -56,7 +52,7 @@ function MessagesContainer() {
               className={
                 message.username === "You"
                   ? "flex px-4 py-1 bg-purple-300 border-purple-500 border-t-4 text-2xl"
-                  : "flex px-4 py-1 border-yellow-600 border-t-4  bg-yellow-300 text-2xl"
+                  : "flex px-4 py-1 border-lime-500 border-t-4  bg-lime-300 text-2xl"
               }
             >
               <p className="text-gray-800 pr-1">{message.username} -</p>

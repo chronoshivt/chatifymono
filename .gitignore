@@ -1,2 +1,11 @@
 /client/.env.local
-/client/.next
+# next.js
+/client/.next/
+client/out/
+
+# production
+/build
+
+client/node_modules
+client/.pnp
+client/.pnp.js

@@ -93,7 +93,7 @@ function RoomsContainer() {
     newRoomRef.current.value = "";
   }
   return (
-    <nav className="p-2 h-full items-center flex flex-col shadow-md bg-brown-light">
+    <nav className="p-2 h-full items-center overflow-y-auto scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-brown-light flex flex-col shadow-md bg-brown-light">
       <div className="text-2xl hidden">
         <input
           className="bg-gray-500"
@@ -108,7 +108,7 @@ function RoomsContainer() {
       <div
         // @ts-ignore
         style={{ backgroundColor: colorHash.hex(session?.token?.name) }}
-        className=" w-full h-24"
+        className=" w-full h-24 "
       >
         {/* @ts-ignore */}
         <p className="text-2xl">User: {session?.token?.name}</p>
@@ -123,12 +123,15 @@ function RoomsContainer() {
 
       {Object.keys(rooms).map((key) => {
         return (
-          <div className="" key={key}>
+          <div
+            className={rooms[key].name == undefined ? "hidden" : ""}
+            key={key}
+          >
             <button
               style={{ backgroundColor: colorHash.hex(key) }}
               className={
                 key === roomId
-                  ? "text-3xl  -translate-x-12 scale-110 px-6 py-4 rounded-full m-2"
+                  ? "text-3xl  -translate-x-12 scale-110 px-6 brightness-150 py-4 rounded-full m-2"
                   : "text-3xl rounded-full px-6 py-4 w-full m-2"
               }
               disabled={key === roomId}
