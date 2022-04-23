@@ -1,9 +1,5 @@
 {
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/api/playing": "pages/api/playing.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/api/play-track": "pages/api/play-track.js",
-  "/": "pages/index.js"
+  "/_document": "pages/_document.js"
 }

@@ -117,7 +117,7 @@ function RoomsContainer() {
 
         <p>Current room : {roomId}</p>
         <button className="text-4xl bg-red-600" onClick={getMyPlaying}>
-          Refresh
+          chatify
         </button>
       </div>
 
