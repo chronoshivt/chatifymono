@@ -6,7 +6,7 @@ import express from "express";
 
 const port = process.env.PORT || 4000;
 const host = process.env.HOST || "localhost";
-const corsOrigin = "https://chatifymono.vercel.app";
+const corsOrigin = ["https://chatifymono.vercel.app", "http://localhost:3000"];
 const app = express();
 
 const httpServer = createServer(app);
