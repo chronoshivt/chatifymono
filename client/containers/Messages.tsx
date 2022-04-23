@@ -71,19 +71,22 @@ function MessagesContainer() {
         <div ref={messageEndRef} />
       </section>
 
-      <div className="p-4 bg-emerald-300">
+      <div className="p-4 bg-lime-300 rounded-md">
         <input
           onKeyPress={(e) => {
             if (e.key === "Enter") {
               handleSendMessage();
             }
           }}
-          className="text-3xl bg-gray-300 w-full text-red-300"
+          className="text-3xl bg-gray-300 w-full text-black"
           placeholder="Tell us what you are thinking"
           ref={newMessageRef}
         />
       </div>
-      <button className="py-4 px-8 bg-orange-200 " onClick={handleSendMessage}>
+      <button
+        className="py-4 px-8 bg-brown-dark rounded-xl text-emerald-400 "
+        onClick={handleSendMessage}
+      >
         SEND MESSAGE
       </button>
     </div>

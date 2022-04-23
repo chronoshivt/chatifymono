@@ -105,7 +105,11 @@ function RoomsContainer() {
           CREATE ROOM
         </button>
       </div>
-      <div className="bg-orange-300 w-full h-24">
+      <div
+        // @ts-ignore
+        style={{ backgroundColor: colorHash.hex(session?.token?.name) }}
+        className=" w-full h-24"
+      >
         {/* @ts-ignore */}
         <p className="text-2xl">User: {session?.token?.name}</p>
         {/* @ts-ignore */}
@@ -124,8 +128,8 @@ function RoomsContainer() {
               style={{ backgroundColor: colorHash.hex(key) }}
               className={
                 key === roomId
-                  ? "text-3xl  -translate-x-12 m-2 p-6"
-                  : "text-3xl p-4  m-2"
+                  ? "text-3xl  -translate-x-12 scale-110 px-6 py-4 rounded-full m-2"
+                  : "text-3xl rounded-full px-6 py-4 w-full m-2"
               }
               disabled={key === roomId}
               title={`Join ${rooms[key].name}`}
