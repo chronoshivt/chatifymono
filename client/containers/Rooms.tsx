@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import ColorHash from "color-hash";
 
-var colorHash = new ColorHash();
+var colorHash = new ColorHash({ hue: 96 });
 
-function RoomsContainer() {
+function RoomsContainer({ username }) {
   //Spotify
   const { data: session } = useSession();
 
@@ -93,7 +93,7 @@ function RoomsContainer() {
     newRoomRef.current.value = "";
   }
   return (
-    <nav className="p-2 h-full items-center overflow-y-auto scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-brown-light flex flex-col shadow-md bg-brown-light">
+    <nav className="  flex flex-col h-full  shadow-md bg-brown-light">
       <div className="text-2xl hidden">
         <input
           className="bg-gray-500"
@@ -105,47 +105,51 @@ function RoomsContainer() {
           CREATE ROOM
         </button>
       </div>
+      <section className="flex h-full flex-col items-center overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-brown-light">
+        {Object.keys(rooms).map((key) => {
+          return (
+            <div
+              className={rooms[key].name == undefined ? "hidden" : ""}
+              key={key}
+            >
+              <button
+                style={{ backgroundColor: colorHash.hex(key) }}
+                className={
+                  key === roomId
+                    ? "text-3xl transition transform duration-500 -hue-rotate-180 translate-x-12 scale-110 px-6 brightness-150 py-4 rounded-full m-2"
+                    : "text-3xl transition transform duration-500 rounded-full px-6 py-4 m-2"
+                }
+                disabled={key === roomId}
+                title={`Join ${rooms[key].name}`}
+                onClick={() => {
+                  handleJoinRoom(key);
+                  playChosenTrack(key);
+                }}
+              >
+                {rooms[key].name}
+              </button>
+            </div>
+          );
+        })}
+      </section>
       <div
         // @ts-ignore
-        style={{ backgroundColor: colorHash.hex(session?.token?.name) }}
-        className=" w-full h-24 "
+        style={{}}
+        className=" flex bg-purple-400 rounded-r-3xl flex-col p-4"
       >
+        <button
+          className="text-4xl m-4 py-4 rounded-2xl bg-lime-300 shadow-lg"
+          onClick={getMyPlaying}
+        >
+          chatify
+        </button>
         {/* @ts-ignore */}
         <p className="text-2xl">User: {session?.token?.name}</p>
         {/* @ts-ignore */}
         <p>Current song: {playing?.item?.name}</p>
 
         <p>Current room : {roomId}</p>
-        <button className="text-4xl bg-red-600" onClick={getMyPlaying}>
-          chatify
-        </button>
       </div>
-
-      {Object.keys(rooms).map((key) => {
-        return (
-          <div
-            className={rooms[key].name == undefined ? "hidden" : ""}
-            key={key}
-          >
-            <button
-              style={{ backgroundColor: colorHash.hex(key) }}
-              className={
-                key === roomId
-                  ? "text-3xl  -translate-x-12 scale-110 px-6 brightness-150 py-4 rounded-full m-2"
-                  : "text-3xl rounded-full px-6 py-4 w-full m-2"
-              }
-              disabled={key === roomId}
-              title={`Join ${rooms[key].name}`}
-              onClick={() => {
-                handleJoinRoom(key);
-                playChosenTrack(key);
-              }}
-            >
-              {rooms[key].name}
-            </button>
-          </div>
-        );
-      })}
     </nav>
   );
 }

@@ -94,7 +94,8 @@ export default function Home() {
         <div className="bg-brown-dark flex h-screen">
           {/* <button onClick={() => getMyPlaylists()}>PLAYLIST</button> */}
           <div className="w-2/6">
-            <RoomsContainer />
+            {/* @ts-ignore */}
+            <RoomsContainer username={username} />
           </div>
           <section className="flex-1 w-4/6">
             <MessagesContainer />

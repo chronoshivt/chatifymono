@@ -1,8 +1,17 @@
 import { useSockets } from "../context/socket.context";
 import { useEffect, useRef } from "react";
 import EVENTS from "../config/events";
+import { useSession, signIn, signOut } from "next-auth/react";
+
+import ColorHash from "color-hash";
+
+var colorHash = new ColorHash();
+var colorHashLight = new ColorHash({ lightness: 0.7 });
 
 function MessagesContainer() {
+  //Spotify
+  const { data: session } = useSession();
+
   const { socket, messages, roomId, username, setMessages } = useSockets();
   const newMessageRef = useRef(null);
 
@@ -48,14 +57,15 @@ function MessagesContainer() {
         {messages.map((message, index) => {
           return (
             <div
+              style={{ backgroundColor: colorHashLight.hex(message.username) }}
               key={index}
               className={
                 message.username === "You"
-                  ? "flex px-4 py-1 bg-purple-300 border-purple-500 border-t-4 text-2xl"
-                  : "flex px-4 py-1 border-lime-500 border-t-4  bg-lime-300 text-2xl"
+                  ? "flex px-4 py-1 border-black border-t-4 text-2xl"
+                  : "flex px-4 py-1 border-white border-t-4 text-2xl"
               }
             >
-              <p className="text-gray-800 pr-1">{message.username} -</p>
+              <p className="text-black pr-1">{message.username} -</p>
               <p className="flex-1" key={index}>
                 {message.message}
               </p>
@@ -67,7 +77,7 @@ function MessagesContainer() {
         <div ref={messageEndRef} />
       </section>
 
-      <div className="p-4 bg-lime-300 rounded-md">
+      <div className="p-4 bg-lime-300 ">
         <input
           onKeyPress={(e) => {
             if (e.key === "Enter") {
@@ -80,7 +90,7 @@ function MessagesContainer() {
         />
       </div>
       <button
-        className="py-4 px-8 bg-brown-dark rounded-xl text-emerald-400 "
+        className="py-6 px-8 bg-brown-light rounded-xl text-emerald-400 "
         onClick={handleSendMessage}
       >
         SEND MESSAGE
