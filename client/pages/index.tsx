@@ -47,39 +47,60 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-green-400 h-screen">
+    <div className="bg-brown-mid h-screen">
       {session && !username && (
         <>
           {/* @ts-ignore */}
-          Signed in as {session?.token?.email} <br />
-          <button onClick={() => signOut()}>Sign out</button>
-          <br />
+          <p className="text-3xl text-white text-center">
+
           {/* @ts-ignore */}
-          User: {session?.token?.name}
+          Signed into Spotify account: {session?.token?.name} <br />
+          <button className="text-xl bg-green-300 text-black px-4 py-2 m-4" onClick={() => signOut()}>Sign out</button>
+          </p>
           <br />
-          <button className="px-4 py-2 bg-purple-400" onClick={getMyPlaylists}>
+          <p className="text-white text-center text-lg">Chatify places you
+          in an anonymous chat with other users currently
+          streaming the same artist as you.
+          <br />
+          Press the chatify button to sync your currently playing song
+          with the app.
+          </p>
+          {/* <button className="px-4 py-2 bg-purple-400" onClick={getMyPlaylists}>
             My playlists
           </button>
-          <br />
-          <button className="px-4 py-2 bg-emerald-400" onClick={getMyPlaying}>
+          <br /> */}
+          {/* <button className="px-4 py-2 bg-emerald-400" onClick={getMyPlaying}>
             {" "}
             Currently playing
-          </button>
+          </button> */}
           {/* @ts-ignore */}
-          <p>Song Title: {playing?.item?.name}</p>
+          {/* <p className="text-white">Song playing: {playing?.item?.name ? playing?.item?.name: "No song playing :("}</p> */}
         </>
       )}
       {!session && (
         <>
-          Not signed in <br />
-          <button onClick={() => signIn()}>Sign in</button>
+        <p className="text-3xl text-white text-center">
+
+{/* @ts-ignore */}
+Not signed in. <br />
+<button className="text-xl bg-green-300 text-black px-4 py-2 m-4" onClick={() => signIn()}>Sign in</button>
+</p>
+<br />
+<p className="text-white text-center text-lg">Chatify places you
+          in an anonymous chat with other users currently
+          streaming the same artist as you.
+          <br />
+          Press the chatify button to sync your currently playing song
+          with the app.
+          </p>
+    
         </>
       )}
       {!username && (
-        <div className="flex bg-emerald-500 justify-center">
+        <div className="flex my-8 justify-center">
           <input
-            className="text-3xl bg-gray-600"
-            placeholder="Username"
+            className="text-3xl text-white bg-brown-light"
+            placeholder="choose a name :)"
             ref={usernameRef}
           />
           <button

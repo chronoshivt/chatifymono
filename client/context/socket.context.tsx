@@ -31,7 +31,7 @@ function SocketsProvider(props: any) {
 
   useEffect(() => {
     window.onfocus = function () {
-      document.title = "Chat App";
+      document.title = "Chatify :D";
     };
   }, []);
 
@@ -45,7 +45,7 @@ function SocketsProvider(props: any) {
 
   socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ message, username, time }) => {
     if (!document.hasFocus()) {
-      document.title = "New message...";
+      document.title = "new message..!";
     }
 
     setMessages([...messages, { message, username, time }]);

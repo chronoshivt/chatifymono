@@ -1,13 +1,15 @@
 /client/.env.local
 # next.js
 /client/.next/
+/client/.next
 /client/out/
-
+/client/out/
+client/.next
 /node_modules
 
 # production
 /client/build
-
+client/build
 /client/node_modules
 /client/.pnp
 /client/.pnp.js
