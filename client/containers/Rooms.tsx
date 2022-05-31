@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import ColorHash from "color-hash";
 
-var colorHash = new ColorHash({ hue: 96 });
+var colorHash = new ColorHash({ hue: 150 });
 
 function RoomsContainer({ username }) {
   //Spotify
@@ -120,8 +120,8 @@ function RoomsContainer({ username }) {
                 style={{ backgroundColor: colorHash.hex(key) }}
                 className={
                   key === roomId
-                    ? "text-3xl transition transform duration-500 -hue-rotate-180 translate-x-12 scale-110 px-6 brightness-150 py-4 rounded-full m-2"
-                    : "text-3xl transition transform duration-500 rounded-full px-6 py-4 m-2"
+                    ? "text-3xl transition transform duration-500 -hue-rotate-180 translate-x-12 scale-110 px-6 brightness-120 py-4 rounded-full m-2"
+                    : "hover:scale-110 text-3xl transition transform duration-500 rounded-full px-6 py-4 m-2"
                 }
                 disabled={key === roomId}
                 title={`Join ${rooms[key].name}`}
@@ -139,20 +139,33 @@ function RoomsContainer({ username }) {
       <div
         // @ts-ignore
         style={{}}
-        className=" flex bg-purple-400 rounded-r-3xl flex-col p-4"
+        className=" flex bg-purple-400 rounded-r-xl flex-col p-4"
       >
         <button
-          className="text-4xl m-4 py-4 rounded-2xl bg-lime-300 shadow-lg"
+          className="text-4xl m-4 py-4 rounded-2xl bg-emerald-400 shadow-lg"
           onClick={getMyPlaying}
         >
           chatify
         </button>
+        <div className="flex mx-4">
+          
         {/* @ts-ignore */}
-        <p className="text-2xl">User: {session?.token?.name}</p>
-        {/* @ts-ignore */}
-        <p>Current song: {playing?.item?.name}</p>
+          <img className="w-24 rounded-xl h-24" src={session?.token?.picture}/>
+        
+        <section className="w-full text-right">
 
-        <p>Current room : {roomId}</p>
+        {/* @ts-ignore */}
+        
+        <p className="text-2xl">User: {session?.token?.name}</p>
+        
+        {/* @ts-ignore */}
+        <p>Listening to: {playing?.item?.name ? playing?.item?.name  : "Play music and press chatify"}</p>
+        
+        {/* @ts-ignore */}
+        <p className={playing?.item?.name ? "visible" : "hidden"}>by: {playing?.item?.artists[0].name}</p>
+        </section>
+        </div>
+
       </div>
     </nav>
   );

@@ -6,7 +6,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import ColorHash from "color-hash";
 
 var colorHash = new ColorHash();
-var colorHashLight = new ColorHash({ lightness: 0.7 });
+var colorHashLight = new ColorHash({  lightness: 0.7 });
 
 function MessagesContainer() {
   //Spotify
@@ -61,7 +61,7 @@ function MessagesContainer() {
               key={index}
               className={
                 message.username === "You"
-                  ? "flex px-4 py-1 border-black border-t-4 text-2xl"
+                  ? "flex px-4 py-1 border-black hue-rotate-180 border-t-4 text-2xl"
                   : "flex px-4 py-1 border-white border-t-4 text-2xl"
               }
             >
@@ -77,7 +77,7 @@ function MessagesContainer() {
         <div ref={messageEndRef} />
       </section>
 
-      <div className="p-4 bg-lime-300 ">
+      <div className="p-4 bg-emerald-400 ">
         <input
           onKeyPress={(e) => {
             if (e.key === "Enter") {
@@ -85,7 +85,7 @@ function MessagesContainer() {
             }
           }}
           className="text-3xl bg-gray-300 w-full text-black"
-          placeholder="Tell us what you are thinking"
+          placeholder="Send a message"
           ref={newMessageRef}
         />
       </div>
