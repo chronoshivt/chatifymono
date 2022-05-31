@@ -90,7 +90,7 @@ Not signed in. <br />
           in an anonymous chat with other users currently
           streaming the same artist as you.
           <br />
-          Press the "chatify" button to sync your currently playing song
+          Press the chatify button to sync your currently playing song
           with the app.
           </p>
     
