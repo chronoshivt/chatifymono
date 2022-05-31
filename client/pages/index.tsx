@@ -62,7 +62,7 @@ export default function Home() {
           in an anonymous chat with other users currently
           streaming the same artist as you.
           <br />
-          Press the "chatify" button to sync your currently playing song
+          Press the chatify button to sync your currently playing song
           with the app.
           </p>
           {/* <button className="px-4 py-2 bg-purple-400" onClick={getMyPlaylists}>
