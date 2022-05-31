@@ -1,8 +1,9 @@
 /client/.env.local
 # next.js
 /client/.next/
+/client/.next
 /client/out/
-
+client/.next
 /node_modules
 
 # production

@@ -38,6 +38,9 @@ function socket({ io }) {
       if (arrayWithFilterObjects.length) {
         console.log("Exists");
         socket.join(roomId);
+        rooms[roomId] = {
+          name: roomName
+        }
 
         socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
         // console.log(arrayWithFilterObjects);
@@ -87,7 +90,15 @@ function socket({ io }) {
 
     //WHen a user leaves a room
     socket.on(EVENTS.CLIENT.LEAVE_ROOM, (roomId) => {
+      
+      
+      
+      rooms[roomId] = {
+        name: "empty"
+      }
+
       socket.leave(roomId);
+
 
       console.log("Leaving room", roomId);
 

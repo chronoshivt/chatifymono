@@ -20,6 +20,7 @@ function RoomsContainer({ username }) {
     const items = await res.json();
     setPlaying(items);
     console.log(playing);
+    socket.emit(EVENTS.CLIENT.LEAVE_ROOM, roomId);
   };
 
   const playChosenTrack = async (key) => {
@@ -39,6 +40,7 @@ function RoomsContainer({ username }) {
   const [testHash, setHash] = useState(colorHash.hex("pussssy"));
 
   useEffect(() => {
+  
     // @ts-ignore
     const roomName = playing?.item?.artists[0].name;
     // @ts-ignore
@@ -91,6 +93,8 @@ function RoomsContainer({ username }) {
     socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName });
     //set room name input back to empty string
     newRoomRef.current.value = "";
+
+    socket.emit(EVENTS.CLIENT.LEAVE_ROOM, roomId);
   }
   return (
     <nav className="  flex flex-col h-full  shadow-md bg-brown-light">
@@ -109,7 +113,7 @@ function RoomsContainer({ username }) {
         {Object.keys(rooms).map((key) => {
           return (
             <div
-              className={rooms[key].name == undefined ? "hidden" : ""}
+              className={rooms[key].name === "empty" || rooms[key].name === undefined  ? "hidden" : ""}
               key={key}
             >
               <button
