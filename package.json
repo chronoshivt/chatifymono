@@ -6,7 +6,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cd server && nodemon --config nodemon.json src/app.js",
     "server": "cd server && NODE_OPTIONS='--experimental-specifier-resolution=node --trace-warnings' node src/App.js",
-    
     "buildServer": "cd server && yarn install"
   },
   "devDependencies": {
