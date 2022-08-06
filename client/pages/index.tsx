@@ -58,7 +58,7 @@ export default function Home() {
           <button className="text-xl bg-green-300 text-black px-4 py-2 m-4" onClick={() => signOut()}>Sign out</button>
           </p>
           <br />
-          <p className="text-white text-center text-lg">Chatify places you
+          <p className="text-red text-center text-lg">Chatify places you
           in an anonymous chat with other users currently
           streaming the same artist as you.
           <br />
@@ -79,11 +79,11 @@ export default function Home() {
       )}
       {!session && (
         <>
-        <p className="text-3xl text-white text-center">
+        <p className="text-3xl text-white text-center cursor-default">
 
 {/* @ts-ignore */}
-Not signed in. <br />
-<button className="text-xl bg-green-300 text-black px-4 py-2 m-4" onClick={() => signIn()}>Sign in</button>
+Sign in to <span className="text-green-500">Spotify</span> to start <br />
+<button className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:bg-green-300 hover:scale-110 transition duration-200 ease-out" onClick={() => signIn()}>Sign in</button>
 </p>
 <br />
 <p className="text-white text-center text-lg">Chatify places you
@@ -104,7 +104,7 @@ Not signed in. <br />
             ref={usernameRef}
           />
           <button
-            className="rounded-full bg-green-600 px-4 py-2"
+            className="rounded-full bg-green-500 px-4 py-2 hover:bg-green-300 hover:scale-110 transition duration-200 ease-out ml-4" 
             onClick={handleSetUsername}
           >
             START
