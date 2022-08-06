@@ -55,14 +55,14 @@ export default function Home() {
 
           {/* @ts-ignore */}
           Signed into Spotify account: {session?.token?.name} <br />
-          <button className="text-xl bg-green-300 text-black px-4 py-2 m-4" onClick={() => signOut()}>Sign out</button>
+          <button className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:shadow-xl hover:shadow-black hover:bg-green-300 hover:scale-110 transition duration-200 ease-out" onClick={() => signOut()}>Sign out</button>
           </p>
           <br />
-          <p className="text-red text-center text-lg">Chatify places you
-          in an anonymous chat with other users currently
+          <p className="text-white text-center text-lg">Chatify places you
+          in an anonymous chat with other users that are currently
           streaming the same artist as you.
           <br />
-          Press the chatify button to sync your currently playing song
+          Press the chatify button to sync your current song
           with the app.
           </p>
           {/* <button className="px-4 py-2 bg-purple-400" onClick={getMyPlaylists}>
@@ -83,28 +83,28 @@ export default function Home() {
 
 {/* @ts-ignore */}
 Sign in to <span className="text-green-500">Spotify</span> to start <br />
-<button className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:bg-green-300 hover:scale-110 transition duration-200 ease-out" onClick={() => signIn()}>Sign in</button>
+<button className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:shadow-xl hover:shadow-black hover:bg-green-300 hover:scale-110 transition duration-200 ease-out" onClick={() => signIn()}>Sign in</button>
 </p>
 <br />
 <p className="text-white text-center text-lg">Chatify places you
-          in an anonymous chat with other users currently
+          in an anonymous chat with other users that are currently
           streaming the same artist as you.
           <br />
-          Press the chatify button to sync your currently playing song
+          Press the chatify button to sync your current song
           with the app.
           </p>
     
         </>
       )}
       {!username && (
-        <div className="flex my-8 justify-center">
+        <div className="flex my-8 justify-center items-center">
           <input
-            className="text-3xl text-white bg-brown-light"
-            placeholder="choose a name :)"
+            className="text-3xl text-white bg-brown-light focus:placeholder-black pl-3 py-2 focus:outline-none"
+            placeholder="Create a username"
             ref={usernameRef}
           />
           <button
-            className="rounded-full bg-green-500 px-4 py-2 hover:bg-green-300 hover:scale-110 transition duration-200 ease-out ml-4" 
+            className="rounded-full bg-green-500 px-4 py-2 hover:bg-green-300 hover:scale-110 hover:shadow-lg hover:shadow-black transition duration-200 ease-out ml-4" 
             onClick={handleSetUsername}
           >
             START
