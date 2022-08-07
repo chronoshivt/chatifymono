@@ -1,26 +1,25 @@
-import { createServer } from "http";
-import { Server } from "socket.io";
-import cors from "cors";
-import socket from "./socket.js";
-import express from "express";
+const HyperExpress = require('hyper-express');
+const webserver = new HyperExpress.Server();
 
-const port = process.env.PORT || 4000;
-const host = process.env.HOST || "localhost";
-const corsOrigin = ["https://chatifymono.vercel.app", "http://localhost:3000"];
-const app = express();
-
-const httpServer = createServer(app);
-
-const io = new Server(httpServer, {
-  cors: {
-    origin: corsOrigin,
-    credentials: true,
-  },
+// Create websocket route to handle opened websocket connections
+webserver.ws('/ws/connect', (ws) => {
+    // Log when a connection has opened for debugging
+    console.log('user ' + ws.context.user_id + ' has connected to consume news events');
+    
+    // Handle incoming messages to perform changes in consumption
+    ws.on('message', (message) => {
+        // Make some changes to which events user consumes based on incoming message
+    });
+    
+    // Do some cleanup once websocket connection closes
+    ws.on('close', (code, message) => {
+       console.log('use ' + ws.context.user_id + ' is no longer listening for news events.');
+       // You may do some cleanup here regarding analytics
+    });
 });
 
-app.get("/", (_, res) => res.send("Server is up"));
 
-httpServer.listen(port, host, () => {
-  console.log("live on port:", port);
-  socket({ io });
-});
+// Activate webserver by calling .listen(port, callback);
+webserver.listen(80)
+.then((socket) => console.log('Webserver started on port 80'))
+.catch((error) => console.log('Failed to start webserver on port 80'));
