@@ -97,19 +97,26 @@ function RoomsContainer({ username }) {
     socket.emit(EVENTS.CLIENT.LEAVE_ROOM, roomId);
   }
   return (
-    <nav className="  flex flex-col h-full  shadow-md bg-brown-light">
+    <nav className="  flex flex-col h-full shadow-md bg-black font-mono">
+
+      <div className="bg-black h-20 flex">
+        <p className="text-white text-5xl tracking-tight font-semibold pl-3 mt-1">Current Room:</p>
+        <p className="text-right text-5xl text-green-500 ml-4 mt-1">
+          {rooms[roomId]?.name}
+        </p>
+                
+      </div> 
+
       <div className="text-2xl hidden">
         <input
           className="bg-gray-500"
           ref={newRoomRef}
           placeholder="Room name"
         />
-        <br />
-        <button className="bg-blue-500" onClick={handleCreateRoom}>
-          CREATE ROOM
-        </button>
+      <br />   
       </div>
-      <section className="flex h-full flex-col items-center overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-brown-light">
+      <section className="flex h-full flex-col ml-4 mt-6 text-xl overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-brown-light">
+        <p className="text-white mb-4">{"Active Rooms (Click To Join):"}</p>
         {Object.keys(rooms).map((key) => {
           return (
             <div
@@ -120,7 +127,7 @@ function RoomsContainer({ username }) {
                 style={{ backgroundColor: colorHash.hex(key) }}
                 className={
                   key === roomId
-                    ? "text-3xl transition transform duration-500 -hue-rotate-180 translate-x-12 scale-110 px-6 brightness-120 py-4 rounded-full m-2"
+                    ? "hidden"
                     : "hover:scale-110 text-3xl transition transform duration-500 rounded-full px-6 py-4 m-2"
                 }
                 disabled={key === roomId}
@@ -139,14 +146,8 @@ function RoomsContainer({ username }) {
       <div
         // @ts-ignore
         style={{}}
-        className=" flex bg-purple-400 rounded-r-xl flex-col p-4"
+        className=" flex bg-SlateGray rounded-r-xl flex-col p-4 text-white"
       >
-        <button
-          className="text-4xl m-4 py-4 rounded-2xl bg-emerald-400 shadow-lg"
-          onClick={getMyPlaying}
-        >
-          chatify
-        </button>
         <div className="flex mx-4">
           
         {/* @ts-ignore */}
@@ -165,6 +166,12 @@ function RoomsContainer({ username }) {
         <p className={playing?.item?.name ? "visible" : "hidden"}>by: {playing?.item?.artists[0].name}</p>
         </section>
         </div>
+        <button
+          className="text-4xl m-4 py-4 rounded-2xl bg-green-500 shadow-lg hover:scale-90 hover:text-white text-black transition-transform duration-1000 ease-out"
+          onClick={getMyPlaying}
+        >
+          Chatify
+        </button>
 
       </div>
     </nav>

@@ -51,21 +51,22 @@ function MessagesContainer() {
     return <div />;
   }
   return (
-    <div className="flex h-full justify-end flex-col">
-      <div className="bg-emerald-400"></div>
-      <section className="overflow-y-auto scrollbar-thin scrollbar-thumb-lime-300 scrollbar-track-brown-light bg-black">
+    <div className="flex h-full justify-end flex-col font-mono">
+      <section className="overflow-y-auto scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-brown-light bg-brown-dark">
         {messages.map((message, index) => {
           return (
             <div
-              style={{ backgroundColor: colorHashLight.hex(message.username) }}
+              style={{ color: colorHashLight.hex(message.username) }}
               key={index}
               className={
                 message.username === "You"
-                  ? "flex px-4 py-1 border-black hue-rotate-180 border-t-4 text-2xl"
-                  : "flex px-4 py-1 border-white border-t-4 text-2xl"
+                  ? "flex px-4 py-1 hue-rotate-180 my-1 text-2xl mx-10"
+                  : "flex px-4 py-1 hue-rotate-180 my-1 text-2xl mx-10"
               }
             >
-              <p className="text-black pr-1">{message.username} -</p>
+              <p 
+                style={{ color: colorHashLight.hex(message.username) }}
+                className="pr-4">{message.username} -</p>
               <p className="flex-1" key={index}>
                 {message.message}
               </p>
@@ -77,24 +78,18 @@ function MessagesContainer() {
         <div ref={messageEndRef} />
       </section>
 
-      <div className="p-4 bg-emerald-400 ">
+      <div className="p-4 bg-gray-400 mx-6 rounded-3xl my-8 ">
         <input
           onKeyPress={(e) => {
             if (e.key === "Enter") {
               handleSendMessage();
             }
           }}
-          className="text-3xl bg-gray-300 w-full text-black"
+          className="text-3xl bg-gray-400 w-full text-black placeholder-black pl-2 outline-none flex"
           placeholder="Send a message"
           ref={newMessageRef}
         />
       </div>
-      <button
-        className="py-6 px-8 bg-brown-light rounded-xl text-emerald-400 "
-        onClick={handleSendMessage}
-      >
-        SEND MESSAGE
-      </button>
     </div>
   );
 }

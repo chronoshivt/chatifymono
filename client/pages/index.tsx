@@ -79,12 +79,14 @@ export default function Home() {
       )}
       {!session && (
         <>
-        <p className="text-3xl text-white text-center cursor-default">
+        <p className="text-3xl text-white text-center cursor-default w-full">
+
 
 {/* @ts-ignore */}
 Sign in to <span className="text-green-500">Spotify</span> to start <br />
 <button className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:shadow-xl hover:shadow-black hover:bg-green-300 hover:scale-110 transition duration-200 ease-out" onClick={() => signIn()}>Sign in</button>
 </p>
+
 <br />
 <p className="text-white text-center text-lg">Chatify places you
           in an anonymous chat with other users that are currently
