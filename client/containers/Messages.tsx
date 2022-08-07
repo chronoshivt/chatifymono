@@ -2,6 +2,8 @@ import { useSockets } from "../context/socket.context";
 import { useEffect, useRef } from "react";
 import EVENTS from "../config/events";
 import { useSession, signIn, signOut } from "next-auth/react";
+import membersImage from "../public/member.png";
+import Image from "next/image"
 
 import ColorHash from "color-hash";
 
@@ -51,8 +53,14 @@ function MessagesContainer() {
     return <div />;
   }
   return (
-    <div className="flex h-full justify-end flex-col font-mono">
-      <section className="overflow-y-auto scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-brown-light bg-brown-dark">
+    <div className="font-mono flex flex-col h-full">
+      <div className="bg-brown-dark my-2 mx-6 flex justify-end">
+            <p className="text-white mt-3 text-3xl"></p>
+            <Image src="/member.png" height={50} width={50}/>
+      </div>
+    <div className="justify-end flex flex-col h-full overflow-y-auto">
+      <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-green-500">
+      <section className="bg-brown-dark">
         {messages.map((message, index) => {
           return (
             <div
@@ -77,8 +85,8 @@ function MessagesContainer() {
         })}
         <div ref={messageEndRef} />
       </section>
-
-      <div className="p-4 bg-gray-400 mx-6 rounded-3xl my-8 ">
+      </div>
+      <div className="p-4 bg-gray-400 mx-6 rounded-3xl my-8">
         <input
           onKeyPress={(e) => {
             if (e.key === "Enter") {
@@ -89,6 +97,7 @@ function MessagesContainer() {
           placeholder="Send a message"
           ref={newMessageRef}
         />
+      </div>
       </div>
     </div>
   );
