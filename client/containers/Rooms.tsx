@@ -23,6 +23,12 @@ function RoomsContainer({ username }) {
     // socket.emit(EVENTS.CLIENT.LEAVE_ROOM, roomId);
   };
 
+//   useEffect(() => {
+//     const intervalId = setInterval(getMyPlaying, 10000);
+//     return () => clearInterval(intervalId);
+// }, []);
+
+
   const playChosenTrack = async (key) => {
     const res = await fetch("/api/play-track", {
       method: "PUT",
@@ -33,7 +39,7 @@ function RoomsContainer({ username }) {
     });
     const items = await res.json();
     console.log(items);
-    console.log(colorHash.hex(key));
+    console.log(colorHash.hex(key)); 
   };
   // @ts-ignore
 
@@ -45,14 +51,16 @@ function RoomsContainer({ username }) {
     // @ts-ignore
     const roomId = playing?.item?.artists[0].uri;
 
+    
     if (!String(roomName).trim()) return;
     if (!String(roomId).trim()) return;
-
-    //emit room created event
-    socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, roomId });
-    //set room name input back to empty string
-    newRoomRef.current.value = "";
-    console.log("Changing rooms!");
+    
+      //emit room created event
+      socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, roomId });
+      //set room name input back to empty string
+      newRoomRef.current.value = "";
+      console.log("Changing rooms!");
+  
   }, [playing]);
   const { socket, roomId, rooms } = useSockets();
 
@@ -60,8 +68,6 @@ function RoomsContainer({ username }) {
 
   function handleJoinRoom(key) {
     // @ts-ignore
-    let previous = roomId;
-
     if (key === roomId) return;
     //emit room joined event
     socket.emit(EVENTS.CLIENT.JOIN_ROOM, key);
@@ -107,10 +113,9 @@ function RoomsContainer({ username }) {
                 }
                 disabled={key === roomId}
                 title={`Join ${rooms[key].name}`}
-                onClick={() => {
-                  handleJoinRoom(key);
-                  playChosenTrack(key);
-                  getMyPlaying();
+                onClick={async () => {
+                  await playChosenTrack(key);
+                  await handleJoinRoom(key);
                 }}
               >
                 {rooms[key].name}
