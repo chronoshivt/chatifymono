@@ -2,11 +2,12 @@ import logger from "./utils/logger.js";
 
 const EVENTS = {
   connection: "connection",
+  disconnect: "disconnect",
   CLIENT: {
     CREATE_ROOM: "CREATE_ROOM",
     SEND_ROOM_MESSAGE: "SEND_ROOM_MESSAGE",
     JOIN_ROOM: "JOIN_ROOM",
-    LEAVE_ROOM: "EVENTS.CLIENT.LEAVE_ROOM",
+    LEAVE_ROOM: "LEAVE_ROOM",
   },
   SERVER: {
     ROOMS: "ROOMS",
@@ -25,33 +26,75 @@ function socket({ io }) {
     logger.info(`User connected ${socket.id}`);
 
     socket.emit(EVENTS.SERVER.ROOMS, rooms);
+    socket.leave(socket.id);
+    socket.join('global');
+
+    // Disconnectc handling
+    socket.on("disconnect", (reason) => {
+      console.log(
+        "Socket " + socket.id + " Disconnected! Connected:" + socket.connected
+      );
+      if (socket.connected == false) {
+        for (let key in rooms) {
+          if (rooms[key].users.includes(socket.id)) {
+            console.log("deleting " + key);
+            delete rooms[key];
+          }
+        }
+        socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
+        //emit back to the room creator with all the rooms
+        socket.emit(EVENTS.SERVER.ROOMS, rooms);
+      }
+    });
 
     // When a user creates a new room
     socket.on(EVENTS.CLIENT.CREATE_ROOM, ({ roomName, roomId }) => {
-      console.log(rooms);
-      const arrayOfRooms = Object.values(rooms);
+      console.log("Creating a room/ Chatify Button pressed");
 
-      const arrayWithFilterObjects = arrayOfRooms.filter(
-        (o) => o.name === roomName
-      );
+      let previous_room = Array.from(socket.rooms.values())[0];
+      // console.log(1, io.of("/").adapter.rooms);
+      // console.log(2, rooms);
 
-      if (arrayWithFilterObjects.length) {
-        console.log("Exists");
+      if (io.of("/").adapter.rooms[roomId] != undefined) {
+        console.log("room exists, joining it instead");
+        let room_users = rooms[roomId].users;
+
+        room_users.push(socket.id);
+
         socket.join(roomId);
-        rooms[roomId] = {
-          name: roomName
-        }
+        rooms[roomId].users = room_users;
 
-        socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
+        // socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
         // console.log(arrayWithFilterObjects);
+      } else {
+        //add a new room to the rooms object
+        rooms[roomId] = {
+          name: roomName,
+          users: [socket.id],
+        };
+        socket.join(roomId);
       }
 
-      //add a new room to the rooms object
-      rooms[roomId] = {
-        name: roomName,
-      };
-
-      socket.join(roomId);
+      if (rooms[previous_room] && rooms[previous_room].name !== roomName) {
+        // after creating or joing a room, leave the previous one.
+        console.log(
+          "After creating or joing a new room, leaving room " + previous_room
+        );
+        socket.leave(previous_room);
+        let previous_users = rooms[previous_room].users;
+        rooms[previous_room].users = previous_users.filter(
+          (item) => item !== socket.id
+        );
+        if (rooms[previous_room].users.length < 1) {
+          console.log("There are no more users in this room, deleting");
+          console.log("Rooms:", rooms);
+          delete rooms[previous_room];
+          console.log("Rooms:", rooms);
+        }
+        socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
+        //emit back to the room creator with all the rooms
+        socket.emit(EVENTS.SERVER.ROOMS, rooms);
+      }
 
       //broadcast an event saying there is a new room
       socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
@@ -85,20 +128,42 @@ function socket({ io }) {
     socket.on(EVENTS.CLIENT.JOIN_ROOM, (roomId) => {
       socket.join(roomId);
 
+      let room_users = rooms[roomId].users;
+      let previous_room = Array.from(socket.rooms.values())[0];
+
+      room_users.push(socket.id);
+
+      rooms[roomId].users = room_users;
+
       socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
+
+      //now after joing a room, leave the previous one.
+      console.log("Now after joing a new room, leaving room " + previous_room);
+      socket.leave(previous_room);
+      if (rooms[previous_room]) {
+        let previous_users = rooms[previous_room].users;
+        rooms[previous_room].users = previous_users.filter(
+          (item) => item !== socket.id
+        );
+        if (rooms[previous_room].users.length < 1) {
+          console.log("There are no more users in this room, deleting");
+          console.log("Rooms:", rooms);
+          delete rooms[previous_room];
+          console.log("Rooms:", rooms);
+        }
+        socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
+        //emit back to the room creator with all the rooms
+        socket.emit(EVENTS.SERVER.ROOMS, rooms);
+      }
     });
 
     //WHen a user leaves a room
     socket.on(EVENTS.CLIENT.LEAVE_ROOM, (roomId) => {
-      
-      
-      
-      rooms[roomId] = {
-        name: "empty"
-      }
+      // rooms[roomId] = {
+      //   name: "empty"
+      // }
 
       socket.leave(roomId);
-
 
       console.log("Leaving room", roomId);
 
