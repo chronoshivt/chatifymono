@@ -26,8 +26,7 @@ function socket({ io }) {
     logger.info(`User connected ${socket.id}`);
 
     socket.emit(EVENTS.SERVER.ROOMS, rooms);
-    socket.leave(socket.id);
-    socket.join('global');
+    // socket.leave(socket.id);
 
     // Disconnectc handling
     socket.on("disconnect", (reason) => {
