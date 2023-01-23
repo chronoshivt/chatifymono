@@ -11,7 +11,7 @@ function RoomsContainer({ username }) {
   //Spotify
   const { data: session } = useSession();
 
-  console.log(session);
+  // console.log(session);
 
   const [playing, setPlaying] = useState({});
 
@@ -19,15 +19,13 @@ function RoomsContainer({ username }) {
     const res = await fetch("/api/playing");
     const items = await res.json();
     setPlaying(items);
-    console.log(playing);
-    // socket.emit(EVENTS.CLIENT.LEAVE_ROOM, roomId);
   };
 
-//   useEffect(() => {
-//     const intervalId = setInterval(getMyPlaying, 10000);
-//     return () => clearInterval(intervalId);
-// }, []);
-
+  // add logic that checks length of playing song and refresh then
+  //   useEffect(() => {
+  //     const intervalId = setInterval(getMyPlaying, 10000);
+  //     return () => clearInterval(intervalId);
+  // }, []);
 
   const playChosenTrack = async (key) => {
     const res = await fetch("/api/play-track", {
@@ -38,31 +36,29 @@ function RoomsContainer({ username }) {
       },
     });
     const items = await res.json();
-    console.log(items);
-    console.log(colorHash.hex(key)); 
   };
   // @ts-ignore
 
   const [testHash, setHash] = useState(colorHash.hex("pussssy"));
 
+  const { socket, roomId, rooms } = useSockets();
+  let currentRoom = rooms[roomId]?.name || "";
   useEffect(() => {
     // @ts-ignore
     const roomName = playing?.item?.artists[0].name;
     // @ts-ignore
     const roomId = playing?.item?.artists[0].uri;
 
-    
+    if (String(roomName) === currentRoom) return;
     if (!String(roomName).trim()) return;
     if (!String(roomId).trim()) return;
-    
-      //emit room created event
-      socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, roomId });
-      //set room name input back to empty string
-      newRoomRef.current.value = "";
-      console.log("Changing rooms!");
-  
+
+    //emit room created event
+    socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, roomId });
+    //set room name input back to empty string
+    newRoomRef.current.value = "";
+    console.log("Changing rooms!");
   }, [playing]);
-  const { socket, roomId, rooms } = useSockets();
 
   const newRoomRef = useRef(null);
 
@@ -74,12 +70,12 @@ function RoomsContainer({ username }) {
   }
 
   return (
-    <nav className="  flex flex-col h-full shadow-md bg-black font-mono">
+    <nav className="flex flex-col h-full w-full shadow-md bg-black font-mono">
       <div className="bg-black h-20 flex">
-        <p className="text-white text-5xl tracking-tight font-semibold pl-3 mt-1">
+        <p className="text-white text-3xl tracking-tight font-semibold pl-3 mt-1">
           Current Room:
         </p>
-        <p className="text-right text-5xl text-green-500 ml-4 mt-1">
+        <p className="text-right text-3xl text-green-500 ml-4 mt-1">
           {rooms[roomId]?.name}
         </p>
       </div>
@@ -127,11 +123,11 @@ function RoomsContainer({ username }) {
       <div
         // @ts-ignore
         style={{}}
-        className=" flex bg-SlateGray rounded-r-xl flex-col p-4 text-white"
+        className=" flex bg-SlateGray rounded-r-xl flex-col text-white"
       >
         <div className="flex mx-4">
           {/* @ts-ignore */}
-          <img className="w-24 rounded-xl h-24" src={session?.token?.picture} />
+          {/* <img className="w-24 rounded-xl h-24" src={session?.token?.picture} /> */}
 
           <section className="w-full text-right">
             {/* @ts-ignore */}
@@ -139,8 +135,11 @@ function RoomsContainer({ username }) {
             <p className="text-2xl">User: {session?.token?.name}</p>
 
             {/* @ts-ignore */}
-            <p>{/* @ts-ignore */}
-              Listening to:{playing?.item?.name ? playing?.item?.name
+            <p>
+              {/* @ts-ignore */}
+              Listening to:
+              {playing?.item?.name
+                ? playing?.item?.name
                 : "Play music and press chatify"}
             </p>
             {/* @ts-ignore */}
@@ -149,13 +148,13 @@ function RoomsContainer({ username }) {
               by: {playing?.item?.artists[0].name}
             </p>
           </section>
+          <button
+            className="text-4xl m-4 py-4 rounded-2xl bg-green-500 shadow-lg hover:scale-90 hover:text-white text-black transition-transform duration-1000 ease-out"
+            onClick={getMyPlaying}
+          >
+            Chatify
+          </button>
         </div>
-        <button
-          className="text-4xl m-4 py-4 rounded-2xl bg-green-500 shadow-lg hover:scale-90 hover:text-white text-black transition-transform duration-1000 ease-out"
-          onClick={getMyPlaying}
-        >
-          Chatify
-        </button>
       </div>
     </nav>
   );

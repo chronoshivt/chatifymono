@@ -8,12 +8,16 @@ const EVENTS = {
     SEND_ROOM_MESSAGE: "SEND_ROOM_MESSAGE",
     JOIN_ROOM: "JOIN_ROOM",
     LEAVE_ROOM: "LEAVE_ROOM",
+    COMPOSE_ROOM_MESSAGE:"COMPOSE_ROOM_MESSAGE",
+    ROOM_HIDE:"ROOM_HIDE"
   },
   SERVER: {
     ROOMS: "ROOMS",
     JOINED_ROOM: "JOINED_ROOM",
     ROOM_MESSAGE: "ROOM_MESSAGE",
     LEFT_ROOM: "LEFT_ROOM",
+    COMPOSED_ROOM_MESSAGE:"COMPOSED_ROOM_MESSAGE",
+    ROOM_HIDDEN:"ROOM_HIDDEN"
   },
 };
 
@@ -79,6 +83,30 @@ function socket({ io }) {
       }
     });
 
+    socket.on(EVENTS.CLIENT.COMPOSE_ROOM_MESSAGE,
+      ({ roomId, message, username, sent }) => {
+        const date = new Date();
+        socket.to(roomId).emit(EVENTS.SERVER.COMPOSED_ROOM_MESSAGE, {
+          message,
+          username,
+          time: `${date.toLocaleString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })}`,
+        });
+      }
+    );
+
+// When a user hides
+    socket.on(EVENTS.CLIENT.ROOM_HIDE,
+      ({ roomId, message, username, sent }) => {
+        socket.to(roomId).emit(EVENTS.SERVER.ROOM_HIDDEN, {
+          username,
+        });
+      }
+    );
+
     // When a user creates a new room
     socket.on(EVENTS.CLIENT.CREATE_ROOM, ({ roomName, roomId }) => {
       console.log(`Client ${socket.id} is requesting to create and/or join room ${roomName}`)
@@ -117,6 +145,7 @@ function socket({ io }) {
         const date = new Date();
 
         socket.to(roomId).emit(EVENTS.SERVER.ROOM_MESSAGE, {
+          sent: true,
           message,
           username,
           time: `${date.toLocaleString("en-US", {

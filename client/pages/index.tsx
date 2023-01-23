@@ -47,23 +47,26 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-brown-mid h-screen">
+    <div className="bg-black h-screen max-h-screen">
       {session && !username && (
         <>
           {/* @ts-ignore */}
           <p className="text-3xl text-white text-center">
-
-          {/* @ts-ignore */}
-          Signed into Spotify account: {session?.token?.name} <br />
-          <button className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:shadow-xl hover:shadow-black hover:bg-green-300 hover:scale-110 transition duration-200 ease-out" onClick={() => signOut()}>Sign out</button>
+            {/* @ts-ignore */}
+            Signed into Spotify account: {session?.token?.name} <br />
+            <button
+              className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:shadow-xl hover:shadow-black hover:bg-green-300 hover:scale-110 transition duration-200 ease-out"
+              onClick={() => signOut()}
+            >
+              Sign out
+            </button>
           </p>
           <br />
-          <p className="text-white text-center text-lg">Chatify places you
-          in an anonymous chat with other users that are currently
-          streaming the same artist as you.
-          <br />
-          Press the chatify button to sync your current song
-          with the app.
+          <p className="text-white text-center text-lg">
+            Chatify places you in an anonymous chat with other users that are
+            currently streaming the same artist as you.
+            <br />
+            Press the chatify button to sync your current song with the app.
           </p>
           {/* <button className="px-4 py-2 bg-purple-400" onClick={getMyPlaylists}>
             My playlists
@@ -79,23 +82,25 @@ export default function Home() {
       )}
       {!session && (
         <>
-        <p className="text-3xl text-white text-center cursor-default w-full">
-
-
-{/* @ts-ignore */}
-Sign in to <span className="text-green-500">Spotify</span> to start <br />
-<button className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:shadow-xl hover:shadow-black hover:bg-green-300 hover:scale-110 transition duration-200 ease-out" onClick={() => signIn()}>Sign in</button>
-</p>
-
-<br />
-<p className="text-white text-center text-lg">Chatify places you
-          in an anonymous chat with other users that are currently
-          streaming the same artist as you.
-          <br />
-          Press the chatify button to sync your current song
-          with the app.
+          <p className="text-3xl text-white text-center cursor-default w-full">
+            {/* @ts-ignore */}
+            Sign in to <span className="text-green-500">Spotify</span> to start{" "}
+            <br />
+            <button
+              className="text-xl bg-green-500 text-black px-4 py-2 m-4 hover:shadow-xl hover:shadow-black hover:bg-green-300 hover:scale-110 transition duration-200 ease-out"
+              onClick={() => signIn()}
+            >
+              Sign in
+            </button>
           </p>
-    
+
+          <br />
+          <p className="text-white text-center text-lg">
+            Chatify places you in an anonymous chat with other users that are
+            currently streaming the same artist as you.
+            <br />
+            Press the chatify button to sync your current song with the app.
+          </p>
         </>
       )}
       {!username && (
@@ -106,7 +111,7 @@ Sign in to <span className="text-green-500">Spotify</span> to start <br />
             ref={usernameRef}
           />
           <button
-            className="rounded-full bg-green-500 px-4 py-2 hover:bg-green-300 hover:scale-110 hover:shadow-lg hover:shadow-black transition duration-200 ease-out ml-4" 
+            className="rounded-full bg-green-500 px-4 py-2 hover:bg-green-300 hover:scale-110 hover:shadow-lg hover:shadow-black transition duration-200 ease-out ml-4"
             onClick={handleSetUsername}
           >
             START
@@ -114,16 +119,16 @@ Sign in to <span className="text-green-500">Spotify</span> to start <br />
         </div>
       )}
       {username && session && (
-        <div className="bg-brown-dark flex h-screen">
+        <main className="h-screen">
           {/* <button onClick={() => getMyPlaylists()}>PLAYLIST</button> */}
-          <div className="w-2/6">
+          <section className="h-3/5">
+            <MessagesContainer />
+          </section>
+          <div className="h-2/5">
             {/* @ts-ignore */}
             <RoomsContainer username={username} />
           </div>
-          <section className="flex-1 w-4/6">
-            <MessagesContainer />
-          </section>
-        </div>
+        </main>
       )}
     </div>
   );
