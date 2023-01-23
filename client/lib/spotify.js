@@ -7,6 +7,8 @@ const CURRENTLY_PLAYING_ENDPOINT =
   "https://api.spotify.com/v1/me/player/currently-playing";
 
 const PLAY_TRACK_ENDPOINT = "https://api.spotify.com/v1/me/player/play";
+const SKIP_NEXT_ENDPOINT = "https://api.spotify.com/v1/me/player/next";
+const SKIP_PREVIOUS_ENDPOINT = "https://api.spotify.com/v1/me/player/previous";
 
 const getAccessToken = async (refresh_token) => {
   const response = await fetch(TOKEN_ENDPOINT, {
@@ -36,6 +38,28 @@ export const getUsersPlaylists = async (refresh_token) => {
 export const getCurrentlyPlaying = async (refresh_token) => {
   const { access_token } = await getAccessToken(refresh_token);
   return fetch(CURRENTLY_PLAYING_ENDPOINT, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+};
+
+export const skipNext = async (refresh_token) => {
+  const { access_token } = await getAccessToken(refresh_token);
+  return fetch(SKIP_NEXT_ENDPOINT, {
+    method: "POST",
+
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+};
+
+export const skipPrevious = async (refresh_token) => {
+  const { access_token } = await getAccessToken(refresh_token);
+  return fetch(SKIP_PREVIOUS_ENDPOINT, {
+    method: "POST",
+
     headers: {
       Authorization: `Bearer ${access_token}`,
     },

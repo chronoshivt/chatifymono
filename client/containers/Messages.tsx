@@ -113,8 +113,8 @@ function MessagesContainer() {
     return <div />;
   }
   return (
-    <div className="font-mono h-full">
-      <section className="h-5/6 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-green-400">
+    <div className="font-mono h-full px-4">
+      <section className="h-5/6 overflow-y-auto overflow-x-hidden w-full scrollbar-thin scrollbar-thumb-green-400">
         {messages.map((message, index) => {
           console.log(message);
           let msg_color;
@@ -127,7 +127,7 @@ function MessagesContainer() {
             <div
               style={{ color: msg_color }}
               key={index}
-              className={"flex px-4 hue-rotate-180 my-1 text-2xl mx-10"}
+              className={"flex px-4 hue-rotate-180 my-1 text-2xl"}
             >
               <p style={{ color: msg_color }} className="pr-4">
                 {message.username} -
@@ -143,10 +143,10 @@ function MessagesContainer() {
         <div ref={messageEndRef} />
       </section>
 
-      <div className="bg-brown-dark h-1/6">
+      <div className="bg-brown-dark">
         <input
           onChange={handleChange}
-          className="text-3xl mx-10 bg-brown-dark text-white placeholder-gray-500 outline-none"
+          className="text-3xl bg-brown-dark text-white placeholder-gray-500 outline-none"
           placeholder="Send a message"
           ref={newMessageRef}
           onKeyDown={(event) => {
