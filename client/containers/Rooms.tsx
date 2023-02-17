@@ -94,8 +94,8 @@ function RoomsContainer({ username }) {
   }
 
   return (
-    <nav className="mx-4 h-full font-mono">
-      <div className="text-2xl hidden">
+    <nav className="mx-4 h-full -mt-8 font-mono">
+      <div className="text-xs hidden">
         <input
           className="bg-gray-500"
           ref={newRoomRef}
@@ -103,12 +103,46 @@ function RoomsContainer({ username }) {
         />
         <br />
       </div>
-      <div className="flex text-3xl mt-1 flex flex-col items-center">
+      <p className="text-white text-center text-xl w-full mb-4">{"Active Rooms (Click To Join):"}</p>
+      <section className="flex rotate-180 text-lg overflow-y-hidden overflow-x-auto scrollbar-thin scrollbar-thumb-green-300">
+        <div className="rotate-180 flex">
+        {Object.keys(rooms).map((key) => {
+          return (
+            <div
+              className={
+                rooms[key].name === "empty" || rooms[key].name === undefined
+                  ? "hidden"
+                  : ""
+              }
+              key={key}
+            >
+              <button
+                style={{ color: colorHash.hex(key) }}
+                className={
+                  key === roomId
+                    ? "py-4"
+                    : "hover:scale-110 truncate text-2xl transition transform duration-500 px-6 py-4"
+                }
+                disabled={key === roomId}
+                title={`Join ${rooms[key].name}`}
+                onClick={async () => {
+                  await playChosenTrack(key);
+                  await handleJoinRoom(key);
+                }}
+              >
+                {rooms[key].name}
+              </button>
+            </div>
+          );
+        })}
+        </div>
+      </section>
+      {/* spotify player, could probably be turned into a seperate component */}
+      <div className="flex text-2xl flex flex-col items-center">
         <p className="text-white tracking-tight font-semibold">Current Room:</p>
         <p className="text-green-500">{rooms[roomId]?.name}</p>
       </div>
-
-      <div className="text-white">
+      <div className="text-white -mt-4">
         <div className="flex my-4 w-full justify-between">
           <div className="w-1/3 flex flex-col justify-center items-center">
             <button  className=""
@@ -157,38 +191,6 @@ function RoomsContainer({ username }) {
           <img className="w-24 rounded-xl h-24" src={session?.token?.picture} /> */}
       </div>
 
-      {/* <section className="flex h-full flex-col ml-4 mt-6 text-xl overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-brown-light">
-        <p className="text-white mb-4">{"Active Rooms (Click To Join):"}</p>
-        {Object.keys(rooms).map((key) => {
-          return (
-            <div
-              className={
-                rooms[key].name === "empty" || rooms[key].name === undefined
-                  ? "hidden"
-                  : ""
-              }
-              key={key}
-            >
-              <button
-                style={{ color: colorHash.hex(key) }}
-                className={
-                  key === roomId
-                    ? "hidden"
-                    : "hover:scale-110 text-3xl transition transform duration-500 px-6 py-4 m-2"
-                }
-                disabled={key === roomId}
-                title={`Join ${rooms[key].name}`}
-                onClick={async () => {
-                  await playChosenTrack(key);
-                  await handleJoinRoom(key);
-                }}
-              >
-                {rooms[key].name}
-              </button>
-            </div>
-          );
-        })}
-      </section> */}
     </nav>
   );
 }

@@ -32,7 +32,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-black w-screen max-h-screen h-screen flex flex-col">
+    <div className="bg-black w-screen max-h-screen h-screen md:w-screen overflow-y-auto flex flex-col">
     {!username && (
       <p className="text-3xl text-center my-4 text-white">Chatify places you in an anonymous web IRC
       chatroom with other Spotify users that are streaming the same artist as you.
@@ -80,7 +80,7 @@ export default function Home() {
            <section className="h-3/5">
             <MessagesContainer />
           </section>
-          <div className="">
+          <div className="h-2/5">
             {/* @ts-ignore */}
             <RoomsContainer username={username} />
           </div>
