@@ -20,11 +20,14 @@ function MessagesContainer() {
 
   const messageEndRef = useRef(null);
 
+
+  // when user starts typing
   function handleChange(event) {
     console.log(event.target.value);
     const message = event.target.value;
     const date = new Date();
     let sent = false;
+  // if the message is an empty string, remove the message from the chat
     if (!String(message).trim()) {
       socket.emit(EVENTS.CLIENT.ROOM_HIDE, {
         roomId,
@@ -43,6 +46,7 @@ function MessagesContainer() {
       setMessages(newArray);
       return;
     }
+    // otherwise, emit a new message with what's being typed
     socket.emit(EVENTS.CLIENT.COMPOSE_ROOM_MESSAGE, {
       roomId,
       message,
@@ -50,6 +54,7 @@ function MessagesContainer() {
       sent,
     });
     console.log(messages);
+    // if the composed message was empty before, add a new message to the chat
     if (composed_message == false) {
       setComposed_message(message);
       setMessages([
@@ -67,6 +72,7 @@ function MessagesContainer() {
         },
       ]);
     } else {
+      // otherwise find the already composed message and append it
       let newArray = messages.map(function (obj) {
         if (obj.username === "You" && obj.sent === false) {
           obj.message = message;
@@ -74,7 +80,9 @@ function MessagesContainer() {
         return obj;
       });
       setMessages(newArray);
+
     }
+
   }
 
   useEffect(() => {
@@ -113,8 +121,8 @@ function MessagesContainer() {
     return <div />;
   }
   return (
-    <div className="font-mono h-full px-4">
-      <section className="h-5/6 overflow-y-auto overflow-x-hidden w-full scrollbar-thin scrollbar-thumb-green-400">
+    <div className="font-mono h-full">
+      <section className="p-4 h-5/6 overflow-y-auto overflow-x-hidden max-w-full scrollbar-thin scrollbar-thumb-green-400">
         {messages.map((message, index) => {
           console.log(message);
           let msg_color;
@@ -127,15 +135,15 @@ function MessagesContainer() {
             <div
               style={{ color: msg_color }}
               key={index}
-              className={"flex px-4 hue-rotate-180 my-1 text-2xl"}
+              className="hue-rotate-180 justify-start break-all text-2xl flex"
             >
-              <p style={{ color: msg_color }} className="pr-4">
-                {message.username} -
+              <p style={{ color: msg_color }} className="flex-none w-1/7">
+                {message.username}<span className="saturate-0 text-md">:</span>
               </p>
-              <p className="flex-1" key={index}>
+              <p className="w-full max-w-full" key={index}>
                 {message.message}
               </p>
-              <p className="">{message.time}</p>
+              <p className="text-sm flex-none saturate-0 w-1/7">{message.time}</p>
             </div>
           );
           //{message.message}
@@ -143,7 +151,7 @@ function MessagesContainer() {
         <div ref={messageEndRef} />
       </section>
 
-      <div className="bg-brown-dark">
+      <div className="bg-brown-dark mx-8">
         <input
           onChange={handleChange}
           className="text-3xl bg-brown-dark text-white placeholder-gray-500 outline-none"

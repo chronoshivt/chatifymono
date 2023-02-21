@@ -18,6 +18,9 @@ export default function Home() {
     if (!value) {
       return;
     }
+    if(value.length > 8) {
+      return;
+    }
 
     setUsername(value);
     localStorage.setItem("username", value);
@@ -76,11 +79,11 @@ export default function Home() {
         </div>
       )}
       {username && session && (
-        <div className="h-full">
+        <div className="h-screen md:flex md:flex-col md:items-center md:justify-center">
            <section className="h-3/5">
             <MessagesContainer />
           </section>
-          <div className="h-2/5">
+          <div className="h-2/5 md:w-3/5">
             {/* @ts-ignore */}
             <RoomsContainer username={username} />
           </div>

@@ -70,6 +70,7 @@ function socket({ io }) {
             rooms[key].users = previous_room_users.filter(
               (item) => item !== socket.id
               );
+              // if the room is empty, delete the room
               if(rooms[key].users.length === 0){
               console.log("Deleting " + key +" because "+socket.id+" disconnected.");
               delete rooms[key];

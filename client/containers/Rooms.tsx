@@ -103,7 +103,7 @@ function RoomsContainer({ username }) {
         />
         <br />
       </div>
-      <p className="text-white text-center text-xl w-full mb-4">{"Active Rooms (Click To Join):"}</p>
+      <p className="text-white text-center text-xl w-full">{"Active Rooms (Click To Join):"}</p>
       <section className="flex rotate-180 text-lg overflow-y-hidden overflow-x-auto scrollbar-thin scrollbar-thumb-green-300">
         <div className="rotate-180 flex">
         {Object.keys(rooms).map((key) => {
@@ -138,10 +138,6 @@ function RoomsContainer({ username }) {
         </div>
       </section>
       {/* spotify player, could probably be turned into a seperate component */}
-      <div className="flex text-2xl flex flex-col items-center">
-        <p className="text-white tracking-tight font-semibold">Current Room:</p>
-        <p className="text-green-500">{rooms[roomId]?.name}</p>
-      </div>
       <div className="text-white -mt-4">
         <div className="flex my-4 w-full justify-between">
           <div className="w-1/3 flex flex-col justify-center items-center">
@@ -161,10 +157,21 @@ function RoomsContainer({ username }) {
             </button>
           </div>
           <section className="text-center flex flex-col justify-center w-1/3">
-            {/* @ts-ignore */}
-            <p>
+      <div className="flex text-2xl flex flex-col items-center">
+        <p className="text-white tracking-tight font-semibold">Current Room:</p>
+        <p className="text-green-500">{rooms[roomId]?.name}</p>
+                    {/* @ts-ignore */}
+                    <p className="text-xl">User: {session?.token?.name}</p>
+      </div>
+          </section>
+          <div className="w-1/3 flex flex-col px-2 justify-center items-center">
+
+          {/* @ts-ignore */}
+          <img className=" rounded-xl w-32 h-32 md:w-64 md:h-64" src={playing?.item?.album.images[1].url} ></img>
+             {/* @ts-ignore */}
+             <p>
               {/* @ts-ignore */}
-              {playing?.item?.name ? playing?.item?.name
+              Song: {playing?.item?.name ? playing?.item?.name
                 : "Play music and press chatify"}
             </p>
             {/* @ts-ignore */}
@@ -172,13 +179,6 @@ function RoomsContainer({ username }) {
               {/* @ts-ignore */}
               by: {playing?.item?.artists[0].name}
             </p>
-            {/* @ts-ignore */}
-            <p className="text-xl">User: {session?.token?.name}</p>
-          </section>
-          <div className="w-1/3 flex px-2 justify-center items-center">
-
-          {/* @ts-ignore */}
-          <img className=" rounded-xl" src={playing?.item?.album.images[0].url} ></img>
           </div>
         </div>
         <button
