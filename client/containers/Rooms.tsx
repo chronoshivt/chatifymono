@@ -167,7 +167,7 @@ function RoomsContainer({ username }) {
           <div className="w-1/3 flex flex-col px-2 justify-center items-center">
 
           {/* @ts-ignore */}
-          <img className=" rounded-xl w-32 h-32 md:w-64 md:h-64" src={playing?.item?.album.images[1].url} ></img>
+          <img className=" rounded-xl w-32 h-32" src={playing?.item?.album.images[1].url} ></img>
              {/* @ts-ignore */}
              <p>
               {/* @ts-ignore */}
