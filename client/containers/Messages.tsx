@@ -121,7 +121,7 @@ function MessagesContainer() {
     return <div />;
   }
   return (
-    <div className="font-mono h-full">
+    <div className="font-mono w-full h-full">
       <section className="p-4 h-5/6 overflow-y-auto overflow-x-hidden max-w-full scrollbar-thin scrollbar-thumb-green-400">
         {messages.map((message, index) => {
           console.log(message);
@@ -135,15 +135,15 @@ function MessagesContainer() {
             <div
               style={{ color: msg_color }}
               key={index}
-              className="hue-rotate-180 justify-start break-all text-2xl flex"
+              className="flex hue-rotate-180 break-normal justify-start text-2xl"
             >
-              <p style={{ color: msg_color }} className="flex-none w-1/7">
+              <p style={{ color: msg_color }} className="">
                 {message.username}<span className="saturate-0 text-md">:</span>
               </p>
-              <p className="w-full max-w-full" key={index}>
+              <p className="w-full overflow-hidden" key={index}>
                 {message.message}
               </p>
-              <p className="text-sm flex-none saturate-0 w-1/7">{message.time}</p>
+              <p className="text-xs text-right saturate-0 w-1/6">{message.time}</p>
             </div>
           );
           //{message.message}
@@ -151,10 +151,10 @@ function MessagesContainer() {
         <div ref={messageEndRef} />
       </section>
 
-      <div className="bg-brown-dark mx-8">
+      <div className="bg-brown-dark mx-2 rounded-2xl">
         <input
           onChange={handleChange}
-          className="text-3xl bg-brown-dark text-white placeholder-gray-500 outline-none"
+          className="text-2xl bg-brown-dark mx-4 p-1 text-white placeholder-gray-500 outline-none"
           placeholder="Send a message"
           ref={newMessageRef}
           onKeyDown={(event) => {
