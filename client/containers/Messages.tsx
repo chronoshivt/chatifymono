@@ -137,13 +137,13 @@ function MessagesContainer() {
               key={index}
               className="flex hue-rotate-180 break-normal justify-start text-2xl"
             >
-              <p style={{ color: msg_color }} className="w-1/6">
+              <p style={{ color: msg_color }} className="">
                 {message.username}<span className="saturate-0 text-md">:</span>
               </p>
-              <p className="w-4/6 overflow-hidden" key={index}>
+              <p className="w-full overflow-hidden" key={index}>
                 {message.message}
               </p>
-              <p className="text-xs saturate-0 w-1/6">{message.time}</p>
+              <p className="text-xs text-right saturate-0 w-1/6">{message.time}</p>
             </div>
           );
           //{message.message}
