@@ -79,11 +79,11 @@ export default function Home() {
         </div>
       )}
       {username && session && (
-        <div className="h-screen md:flex md:flex-col md:items-center md:justify-center">
-           <section className="h-3/5 w-full md:w-1/2">
+        <div className="h-full">
+           <section className="h-1/2">
             <MessagesContainer />
           </section>
-          <div className="h-2/5 md:w-1/2">
+          <div className="">
             {/* @ts-ignore */}
             <RoomsContainer username={username} />
           </div>

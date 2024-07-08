@@ -6,7 +6,7 @@
 /client/out/
 client/.next
 /node_modules
-
+.DS_STORE
 # production
 /client/build
 client/build
