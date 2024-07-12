@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <div className="bg-black w-screen max-h-screen h-screen overflow-x-hidden overflow-y-auto flex flex-col">
     {!username && (
-      <p className="text-3xl text-center my-4 text-white">Chatify places you in an anonymous web IRC
+      <p className="text-3xl text-center my-4 text-white">NooChat places you in an anonymous web IRC
       chatroom with other Spotify users that are streaming the same artist as you.
       </p>)}
       {!session && (
