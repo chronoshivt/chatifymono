@@ -39,9 +39,16 @@ interface Room {
 interface RoomsContainerProps {
   username: string;
 }
+interface SessionToken {
+  name: string;
+}
+
+interface Session {
+  token: SessionToken;
+}
 
 function RoomsContainer({ username }: RoomsContainerProps): JSX.Element {
-  const { data: session } = useSession();
+  const { data: session } = useSession() as { data: Session };
   const [playing, setPlaying] = useState<PlayingState>({});
   const { socket, roomId, rooms } = useSockets();
   const newRoomRef = useRef<HTMLInputElement>(null);
